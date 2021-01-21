@@ -6,36 +6,37 @@ from pydantic.main import BaseModel
 
 
 class Chat(BaseModel):
-    id: int
-    type: str
-    username: Optional[str] = None
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
+    first_name: Optional[str] = Field(default=None)
+    id: int = Field(...)
+    last_name: Optional[str] = Field(default=None)
+    type: str = Field(...)
+    username: Optional[str] = Field(default=None)
 
 
 class User(BaseModel):
-    id: int
-    is_bot: bool
-    first_name: str
-    last_name: Optional[str] = None
-    username: Optional[str] = None
+    first_name: str = Field(...)
+    id: int = Field(...)
+    is_bot: bool = Field(...)
+    last_name: Optional[str] = Field(default=None)
+    username: Optional[str] = Field(default=None)
 
 
 class MessageEntity(BaseModel):
-    type: str
-    offset: int
-    length: int
-    url: Optional[str] = None
-    user: Optional[User] = None
-    language: Optional[str] = None
+    language: Optional[str] = Field(default=None)
+    length: int = Field(...)
+    offset: int = Field(...)
+    type: str = Field(...)
+    url: Optional[str] = Field(default=None)
+    user: Optional[User] = Field(default=None)
 
 
 class Message(BaseModel):
-    message_id: int
-    date: int
-    chat: Chat
-    from_: Optional[User] = None
-    text: Optional[str] = None
+    chat: Chat = Field(...)
+    date: int = Field(...)
+    entities: List[MessageEntity] = Field(default_factory=list)
+    from_: Optional[User] = Field(default=None)
+    message_id: int = Field(...)
+    text: Optional[str] = Field(default=None)
 
     class Config:
         fields = {
@@ -44,19 +45,19 @@ class Message(BaseModel):
 
 
 class Update(BaseModel):
-    update_id: int
-    message: Optional[Message] = None
+    message: Optional[Message] = Field(default=None)
+    update_id: int = Field(...)
 
 
 class WebhookInfo(BaseModel):
-    url: str
-    has_custom_certificate: bool
-    pending_update_count: int
     allowed_updates: List[str] = Field(default_factory=list)
-    ip_address: Optional[str] = None
-    last_error_date: Optional[int] = None
-    last_error_message: Optional[str] = None
-    max_connections: Optional[int] = None
+    has_custom_certificate: bool = Field(...)
+    ip_address: Optional[str] = Field(default=None)
+    last_error_date: Optional[int] = Field(default=None)
+    last_error_message: Optional[str] = Field(default=None)
+    max_connections: Optional[int] = Field(default=None)
+    pending_update_count: int = Field(...)
+    url: str = Field(...)
 
 
 # ==== post setup =========================================
